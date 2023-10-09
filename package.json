@@ -1,7 +1,7 @@
 {
   "name": "winston-opentelemetry",
   "version": "0.0.0-development",
-  "description": "Winston transport for sending logs to OpenTelemetry log collector",
+  "description": "Winston transport for sending logs to OpenTelemetry log collector 🪵",
   "main": "index.js",
   "types": "./types/index.d.ts",
   "scripts": {
