@@ -39,8 +39,5 @@
     "types",
     "index.js",
     "lib/*.js"
-  ],
-  "publishConfig": {
-    "access": "restricted"
-  }
+  ]
 }
