@@ -1,12 +1,13 @@
 {
   "name": "winston-opentelemetry",
-  "version": "0.1.0",
+  "version": "0.0.0-development",
   "description": "Winston transport for sending logs to OpenTelemetry log collector",
   "main": "index.js",
   "types": "./types/index.d.ts",
   "scripts": {
     "generate-types": "tsc",
-    "prepack": "npm run generate-types"
+    "prepack": "npm run generate-types",
+    "semantic-release": "semantic-release"
   },
   "author": "Vladimir Adamić",
   "repository": "github:Vunovati/winston-opentelemetry",
@@ -29,11 +30,16 @@
     "winston-transport": "^4.5.0"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "semantic-release": "^22.0.5",
     "winston": "^3.10.0"
   },
   "files": [
     "types",
     "index.js",
     "lib/*.js"
-  ]
+  ],
+  "publishConfig": {
+    "access": "restricted"
+  }
 }
