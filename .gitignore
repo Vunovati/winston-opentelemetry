@@ -3,3 +3,4 @@ node_modules
 *.d.ts
 *.d.ts.map
 package-lock.json
+.tap
