@@ -23,7 +23,7 @@ module.exports = class OpentelemetryTransport extends Transport {
    *
    * @param {Options} opts
    */
-  constructor(opts) {
+  constructor (opts) {
     super(opts)
 
     const detectedResource = detectResourcesSync({
@@ -47,7 +47,7 @@ module.exports = class OpentelemetryTransport extends Transport {
     this.logger = logs.getLogger(opts.loggerName, opts.serviceVersion)
   }
 
-  log(info, callback) {
+  log (info, callback) {
     setImmediate(() => {
       this.emit('logged', info.message)
     })
@@ -63,7 +63,7 @@ module.exports = class OpentelemetryTransport extends Transport {
  * @param {import('winston').LogEntry} logEntry
  * @returns {import('@opentelemetry/api-logs').LogRecord}
  */
-function toOpenTelemetry(logEntry) {
+function toOpenTelemetry (logEntry) {
   const severityNumber = mapLogLevelToSeverityNumber(logEntry.level)
   const severityText = SEVERITY_NAME_MAP[severityNumber] ?? 'UNSPECIFIED'
 
@@ -80,7 +80,7 @@ function toOpenTelemetry(logEntry) {
  * @param {import('winston').LogEntry['level']} level
  * @returns {import('@opentelemetry/api-logs').LogRecord['severityNumber']}
  */
-function mapLogLevelToSeverityNumber(level) {
+function mapLogLevelToSeverityNumber (level) {
   switch (level) {
     case 'error':
       return SeverityNumber.ERROR
