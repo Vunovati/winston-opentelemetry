@@ -6,7 +6,7 @@
   "types": "./types/index.d.ts",
   "scripts": {
     "generate-types": "tsc",
-    "test": "standard | snazzy && tsd",
+    "test": "standard | snazzy && tap test/*.test.js && tsd",
     "pretest": "npm run generate-types",
     "prepack": "npm run generate-types",
     "semantic-release": "semantic-release",
@@ -30,6 +30,7 @@
     "@opentelemetry/exporter-logs-otlp-proto": "^0.43.0",
     "@opentelemetry/resources": "^1.17.0",
     "@opentelemetry/sdk-logs": "^0.43.0",
+    "tap": "^18.4.6",
     "winston-transport": "^4.5.0"
   },
   "devDependencies": {
@@ -38,6 +39,8 @@
     "semantic-release": "^22.0.5",
     "snazzy": "^9.0.0",
     "standard": "^17.1.0",
+    "tar-stream": "^3.1.6",
+    "testcontainers": "^10.2.1",
     "tsd": "^0.29.0",
     "winston": "^3.10.0"
   },
