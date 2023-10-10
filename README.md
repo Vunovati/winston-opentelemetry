@@ -3,6 +3,7 @@
 [![Build Status](https://img.shields.io/github/workflow/status/Vunovati/winston-opentelemetry/CI)](https://github.com/Vunovati/winston-opentelemetry/actions)
 [![Known Vulnerabilities](https://snyk.io/test/github/Vunovati/winston-opentelemetry/badge.svg)](https://snyk.io/test/Vunovati/winston-opentelemetry)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://standardjs.com/)
+[![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
 Winston transport for OpenTelemetry. Outputs logs in the [OpenTelemetry Log Data Model](https://github.com/open-telemetry/opentelemetry-specification/blob/fc8289b8879f3a37e1eba5b4e445c94e74b20359/specification/logs/data-model.md) and sends them to an OTLP logs collector.
 
