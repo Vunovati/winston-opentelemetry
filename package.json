@@ -6,8 +6,11 @@
   "types": "./types/index.d.ts",
   "scripts": {
     "generate-types": "tsc",
+    "test": "standard | snazzy && tsd",
+    "pretest": "npm run generate-types",
     "prepack": "npm run generate-types",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "format": "standard --fix"
   },
   "author": "Vladimir Adamić",
   "repository": "github:Vunovati/winston-opentelemetry",
@@ -33,11 +36,26 @@
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "semantic-release": "^22.0.5",
+    "snazzy": "^9.0.0",
+    "standard": "^17.1.0",
+    "tsd": "^0.29.0",
     "winston": "^3.10.0"
   },
   "files": [
     "types",
     "index.js",
     "lib/*.js"
-  ]
+  ],
+  "standard": {
+    "ignore": [
+      "node_modules/"
+    ]
+  },
+  "tsd": {
+    "directory": "./test/types"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
 }
