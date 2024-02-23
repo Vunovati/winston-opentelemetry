@@ -1,17 +1,8 @@
 'use strict'
 
 const Transport = require('winston-transport')
-const { LoggerProvider } = require('@opentelemetry/sdk-logs')
-const { logs, SeverityNumber } = require('@opentelemetry/api-logs') // TODO: optional import
-const {
-  Resource,
-  detectResourcesSync,
-  envDetectorSync,
-  hostDetectorSync,
-  osDetectorSync,
-  processDetector
-} = require('@opentelemetry/resources')
-const createLogProcessor = require('./lib/create-log-processor')
+const { getOtlpLogger } = require('otlp-logger')
+const { SeverityNumber } = require('@opentelemetry/api-logs') // TODO: optional import
 
 module.exports = class OpentelemetryTransport extends Transport {
   /**
@@ -25,26 +16,7 @@ module.exports = class OpentelemetryTransport extends Transport {
    */
   constructor (opts) {
     super(opts)
-
-    const detectedResource = detectResourcesSync({
-      detectors: [
-        envDetectorSync,
-        hostDetectorSync,
-        osDetectorSync,
-        processDetector
-      ]
-    })
-    const loggerProvider = new LoggerProvider({
-      resource: detectedResource.merge(
-        new Resource({ ...opts.resourceAttributes })
-      )
-    })
-
-    loggerProvider.addLogRecordProcessor(createLogProcessor(opts))
-
-    logs.setGlobalLoggerProvider(loggerProvider)
-
-    this.logger = logs.getLogger(opts.loggerName, opts.serviceVersion)
+    this.logger = getOtlpLogger(opts)
   }
 
   log (info, callback) {

@@ -23,13 +23,8 @@
     "opentelemetry"
   ],
   "dependencies": {
-    "@opentelemetry/api": "^1.6.0",
-    "@opentelemetry/api-logs": "^0.43.0",
-    "@opentelemetry/exporter-logs-otlp-grpc": "^0.43.0",
-    "@opentelemetry/exporter-logs-otlp-http": "^0.43.0",
-    "@opentelemetry/exporter-logs-otlp-proto": "^0.43.0",
-    "@opentelemetry/resources": "^1.17.0",
-    "@opentelemetry/sdk-logs": "^0.43.0",
+    "@opentelemetry/api-logs": "^0.48.0",
+    "otlp-logger": "^1.1.0",
     "tap": "^18.4.6",
     "winston-transport": "^4.5.0"
   },

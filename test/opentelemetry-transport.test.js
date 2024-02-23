@@ -72,24 +72,20 @@ test('translate Winston log format to Open Telemetry data format for each log le
   logger.warn('test warn')
   logger.error('test error')
 
-  const resource = {
-    attributes: [
-      {
-        key: 'service.name',
-        value: {
-          stringValue: 'test-service'
-        }
-      },
-      {
-        key: 'telemetry.sdk.language',
-        value: { stringValue: 'nodejs' }
-      },
-      {
-        key: 'telemetry.sdk.name',
-        value: { stringValue: 'opentelemetry' }
+  const expectedResourceAttributes = [
+    {
+      key: 'service.name',
+      value: {
+        stringValue: 'test-service'
       }
-    ]
-  }
+    },
+    {
+      key: 'service.version',
+      value: {
+        stringValue: 'test-service-version'
+      }
+    }
+  ]
 
   const scope = {
     name: 'test-logger-name',
@@ -159,7 +155,13 @@ test('translate Winston log format to Open Telemetry data format for each log le
   const lines = content.split('\n').filter(Boolean)
 
   lines.forEach(line => {
-    hasStrict(JSON.parse(line).resourceLogs?.[0]?.resource, resource)
+    const foundAttributes = JSON.parse(
+      line
+    ).resourceLogs?.[0]?.resource.attributes.filter(
+      attribute =>
+        attribute.key === 'service.name' || attribute.key === 'service.version'
+    )
+    hasStrict(foundAttributes, expectedResourceAttributes)
   })
 
   lines.forEach(line => {
@@ -168,9 +170,12 @@ test('translate Winston log format to Open Telemetry data format for each log le
 
   const logRecords = [...lines.entries()]
     .map(([_lineNumber, logLine]) => {
-      return JSON.parse(logLine).resourceLogs?.[0]?.scopeLogs?.[0]?.logRecords
+      return JSON.parse(logLine).resourceLogs?.[0]?.scopeLogs?.[0]
+        ?.logRecords?.[0]
     })
-    .flat()
+    .sort((a, b) => {
+      return a.severityNumber - b.severityNumber
+    })
 
   for (let i = 0; i < logRecords.length; i++) {
     const logRecord = logRecords[i]
