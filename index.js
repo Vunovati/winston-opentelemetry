@@ -1,17 +1,8 @@
 'use strict'
 
 const Transport = require('winston-transport')
-const { LoggerProvider } = require('@opentelemetry/sdk-logs')
-const { logs, SeverityNumber } = require('@opentelemetry/api-logs') // TODO: optional import
-const {
-  Resource,
-  detectResourcesSync,
-  envDetectorSync,
-  hostDetectorSync,
-  osDetectorSync,
-  processDetector
-} = require('@opentelemetry/resources')
-const createLogProcessor = require('./lib/create-log-processor')
+const { getOtlpLogger } = require('otlp-logger')
+const { SeverityNumber } = require('@opentelemetry/api-logs') // TODO: optional import
 
 module.exports = class OpentelemetryTransport extends Transport {
   /**
@@ -25,26 +16,7 @@ module.exports = class OpentelemetryTransport extends Transport {
    */
   constructor (opts) {
     super(opts)
-
-    const detectedResource = detectResourcesSync({
-      detectors: [
-        envDetectorSync,
-        hostDetectorSync,
-        osDetectorSync,
-        processDetector
-      ]
-    })
-    const loggerProvider = new LoggerProvider({
-      resource: detectedResource.merge(
-        new Resource({ ...opts.resourceAttributes })
-      )
-    })
-
-    loggerProvider.addLogRecordProcessor(createLogProcessor(opts))
-
-    logs.setGlobalLoggerProvider(loggerProvider)
-
-    this.logger = logs.getLogger(opts.loggerName, opts.serviceVersion)
+    this.logger = getOtlpLogger(opts)
   }
 
   log (info, callback) {
@@ -65,7 +37,7 @@ module.exports = class OpentelemetryTransport extends Transport {
  */
 function toOpenTelemetry (logEntry) {
   const severityNumber = mapLogLevelToSeverityNumber(logEntry.level)
-  const severityText = SEVERITY_NAME_MAP[severityNumber] ?? 'UNSPECIFIED'
+  const severityText = SEVERITY_NAME_MAP[severityNumber]
 
   return {
     body: logEntry.message,
@@ -88,14 +60,6 @@ function mapLogLevelToSeverityNumber (level) {
       return SeverityNumber.WARN
     case 'info':
       return SeverityNumber.INFO
-    case 'verbose':
-      return SeverityNumber.INFO
-    case 'debug':
-      return SeverityNumber.DEBUG
-    case 'silly':
-      return SeverityNumber.TRACE
-    default:
-      return SeverityNumber.UNSPECIFIED
   }
 }
 
