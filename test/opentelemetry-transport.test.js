@@ -71,6 +71,9 @@ test('translate Winston log format to Open Telemetry data format for each log le
   logger.info('test info')
   logger.warn('test warn')
   logger.error('test error')
+  logger.verbose('test verbose')
+  logger.debug('test debug')
+  logger.silly('test silly')
 
   const expectedResourceAttributes = [
     {

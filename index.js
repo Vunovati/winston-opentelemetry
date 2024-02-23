@@ -37,7 +37,7 @@ module.exports = class OpentelemetryTransport extends Transport {
  */
 function toOpenTelemetry (logEntry) {
   const severityNumber = mapLogLevelToSeverityNumber(logEntry.level)
-  const severityText = SEVERITY_NAME_MAP[severityNumber] ?? 'UNSPECIFIED'
+  const severityText = SEVERITY_NAME_MAP[severityNumber]
 
   return {
     body: logEntry.message,
@@ -60,14 +60,6 @@ function mapLogLevelToSeverityNumber (level) {
       return SeverityNumber.WARN
     case 'info':
       return SeverityNumber.INFO
-    case 'verbose':
-      return SeverityNumber.INFO
-    case 'debug':
-      return SeverityNumber.DEBUG
-    case 'silly':
-      return SeverityNumber.TRACE
-    default:
-      return SeverityNumber.UNSPECIFIED
   }
 }
 
